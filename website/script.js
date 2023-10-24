@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((data) => {
             // displaying the fetched data in the "data-container" div
             const dataContainer = document.getElementById("data-container");
-            dataContainer.textContent = "This website has been visited " + JSON.stringify(data, null, 2) + " times";
+            dataContainer.textContent = "This page has been viewed " + JSON.stringify(data, null, 2) + " times";
         })
         .catch((error) => {
             console.error("Error fetching data:", error);
