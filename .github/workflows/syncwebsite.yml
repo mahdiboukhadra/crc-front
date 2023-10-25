@@ -6,10 +6,18 @@ on:
     - main
 
 jobs:
-  deploy:
+  sync:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - name: Invalidate CloudFront
+      uses: chetan/invalidate-cloudfront-action@v2
+      env:
+        DISTRIBUTION: ${{ secrets.AWS_CF_DISTRIBUTION }}
+        PATHS: "/*"
+        AWS_REGION: "eu-west-3"
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete
@@ -17,5 +25,5 @@ jobs:
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: 'eu-west-3'  
+        AWS_REGION: 'eu-west-3'
         SOURCE_DIR: 'website'
