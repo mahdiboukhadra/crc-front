@@ -3,7 +3,7 @@ name: sync website with repo
 on:
   push:
     branches:
-    - master
+    - main
 
 jobs:
   deploy:
